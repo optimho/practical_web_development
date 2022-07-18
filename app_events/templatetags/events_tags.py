@@ -31,13 +31,13 @@ def simulate_db_load():
     """
     we delete 200 events and then we create 200 more
     """
-    events = Event.objects.all().order_by('-date')[:200]
+    events = Event.objects.all().order_by('-date')[:40]
 
     year = 2021
     for e in events:
         e.delete()
 
-    for i in range(200):
+    for i in range(40):
         event_object = Event()
         event_object.title = paragraph()[:random.randint(2, 10)]
         event_object.description = paragraph()
