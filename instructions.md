@@ -126,12 +126,39 @@ If it is in use that means that you django server is still running?
 
 create a nginx load balancer
 ```markdown
-docker run -itd --name load_balancer --cpus 2 --memory 2g --net app-net --workdir /etc/nginx/conf.d -v $PWD/static:/static nginx:1.15
+
 
 ```
 
 copy the configured configuration file for the nginx load balancer
 ```markdown
 docker cp deployment/nginx/default.conf load_balancer:/etc/ngnix/conf.d
+```
+
+create the load balancer, a nginx server
+```markdown
+docker run -itd --name load_balancer --cpus 2 --memory 2g --net app-net -p 80:80 --wordir /etc/nginx/conf.d -v $PWD/static:/static nginx:1.15
+```
+
+If you want to use the cool-web-app.com url in the load tester you need to nano /etc/hosts and add the ip address oc the load
+balancer with a specified host name of cool-web-app.com
+
+run the load test
+
+Redis is a caching server that caches requests for a short time.
+If the application can find it in the Redis server it will use that else it will get the result from Mysql and store the
+request results in the redis cache.
+
+```markdown
+docker run -itd --name app-redis --cpus 0.5 --memory 512m --net app-net redis
 
 ```
+
+finally, this example used 2 application to expand the capabilities horizontally.
+create another application 
+```markdown
+ docker run -itd --name web-app-2 -v $PWD:/code --cpus 0.5 --memory 512m --workdir /code --net app-net -e DOCKER_CONTAINER_ID=2 python:3.8
+you will notice that the port information has been removed, django will look after the port allocation -
+```
+
+see changes made nginx default configuration will select between the two applications as required.

@@ -98,16 +98,16 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 DOCKER_CONTAINER_ID = os.environ.get("DOCKER_CONTAINER_ID", None)
 
-# REDIS_URL = 'app-redis'
-# REDIS_PORT = '6379'
-# REDIS_CACHED_TIME = 60  # this is in seconds
-#
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': 'redis://{}:{}/'.format(REDIS_URL, REDIS_PORT),
-#         'OPTIONS': {
-#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#         }
-#     }
-# }
+REDIS_URL = 'app-redis'
+REDIS_PORT = '6379'
+REDIS_CACHED_TIME = 60  # this is in seconds
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://{}:{}/'.format(REDIS_URL, REDIS_PORT),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
